@@ -95,21 +95,20 @@ def main() -> None:
         random.seed(args.seed)
 
     text = load_text(args.text)
-    words = text.split()
-    if not words:
-        raise SystemExit("Nothing to type.")
-
+    if not text:
+        raise ValueError("No text provided and clipboard is empty.")
     interval = 1 / args.cps
     print(
-        f"Typing {len(words)} words at ~{args.cps:.1f} chars/sec "
+        f"Typing {len(text)} characters at ~{args.cps:.1f} chars/sec "
         f"after {args.delay:.1f}s delay. Noise prob: {args.noise_prob:.2f}."
     )
     time.sleep(args.delay)
-
-    try:
-        type_words(words, interval, args.noise_prob)
-    except KeyboardInterrupt:
-        sys.exit("Interrupted before completion.")
+    for paragraph in text.split("\n"):
+        try:
+            type_words(paragraph.split(), interval, args.noise_prob)
+        except KeyboardInterrupt:
+            sys.exit("Interrupted before completion.")
+        pg.press("enter")
 
 
 if __name__ == "__main__":
