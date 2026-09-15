@@ -1,2 +1,3 @@
 #!/bin/zsh
-/Users/lishuyu/miniconda3/bin/python /Users/lishuyu/Codes/typewriter/main.py
+SCRIPT_DIR="${0:A:h}"
+"$SCRIPT_DIR/.venv/bin/python" "$SCRIPT_DIR/main.py" "$@"
